@@ -2,16 +2,15 @@ import React, { useState, useEffect } from "react";
 
 function App() {
   const [question, setQuestion] = useState(null);
+  const [lastQuestion, setLastQuestion] = useState(null); 
   const [selectedOption, setSelectedOption] = useState(null);
   const [correctAnswer, setCorrectAnswer] = useState(null);
   const [elo, setElo] = useState(() => {
-    // Load Elo from localStorage if it exists, otherwise default to 1000
     const savedElo = localStorage.getItem("elo");
     return savedElo ? parseInt(savedElo, 10) : 1000;
   });
   const [loading, setLoading] = useState(false);
 
-  // Save Elo to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem("elo", elo);
   }, [elo]);
@@ -19,7 +18,10 @@ function App() {
   const fetchQuestion = async () => {
     setLoading(true);
     try {
-      setQuestion(null);
+      setSelectedOption(null); 
+      setCorrectAnswer(null); 
+      setQuestion(null); 
+  
       const response = await fetch("http://localhost:2000/api/question");
       if (!response.ok) {
         throw new Error("Failed to fetch question");
@@ -33,7 +35,7 @@ function App() {
       setLoading(false);
     }
   };
-
+  
   const submitAnswer = async (option) => {
     try {
       const response = await fetch("http://localhost:2000/api/answer", {
@@ -47,17 +49,19 @@ function App() {
         }),
       });
       const data = await response.json();
+  
+      setCorrectAnswer(data.correctAnswer); 
+      setSelectedOption(option); 
+      setElo(data.updatedElo); 
 
-      setCorrectAnswer(data.correctAnswer);
-      setSelectedOption(option);
-      setElo(data.updatedElo); // Update Elo rating
-
-      // Fetch the next question after a short delay
-      setTimeout(() => fetchQuestion(), 1500);
+      setLastQuestion({ question: question.question, wikiLink: question.wikiLink });
+ 
+      setTimeout(() => fetchQuestion(), 2000); 
     } catch (error) {
       console.error("Error submitting answer:", error.message);
     }
   };
+  
 
   useEffect(() => {
     fetchQuestion();
@@ -67,16 +71,28 @@ function App() {
   if (!question) return <p>Unable to load question. Refresh the page.</p>;
 
   return (
-    <div style={{ textAlign: "center", padding: "20px" }}>
+    <div className="Quiz" style={{ textAlign: "center", padding: "20px" }}>
       <h1>Infinite Quiz</h1>
       <p>Your Elo Rating: {elo}</p>
 
-      <div>
-        <h2>{question.question}</h2>
-        {question.image && <img src={question.image} alt="quiz" style={{ maxWidth: "300px" }} />}
-      </div>
+      {lastQuestion && (
+        <div className="learn-more">
+          <a
+            href={lastQuestion.wikiLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn More About: {lastQuestion.question}
+          </a>
+        </div>
+      )}
 
       <div>
+        <h2>{question.question}</h2>
+        {question.image && <img className="image" src={question.image} alt="quiz" />}
+      </div>
+
+      <div className="answers">
         {question.options.map((option, index) => (
           <button
             key={index}
@@ -96,7 +112,7 @@ function App() {
               borderRadius: "5px",
               cursor: selectedOption ? "not-allowed" : "pointer",
             }}
-            disabled={!!selectedOption} // Disable buttons after selection
+            disabled={!!selectedOption}
           >
             {option}
           </button>
