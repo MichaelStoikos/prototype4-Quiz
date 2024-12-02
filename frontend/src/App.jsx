@@ -22,7 +22,7 @@ function App() {
       setCorrectAnswer(null); 
       setQuestion(null); 
   
-      const response = await fetch("http://localhost:2000/api/question");
+      const response = await fetch("https://prototype4-quiz.onrender.com/api/question");
       if (!response.ok) {
         throw new Error("Failed to fetch question");
       }
@@ -38,7 +38,7 @@ function App() {
   
   const submitAnswer = async (option) => {
     try {
-      const response = await fetch("http://localhost:2000/api/answer", {
+      const response = await fetch("https://prototype4-quiz.onrender.com/api/answer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
