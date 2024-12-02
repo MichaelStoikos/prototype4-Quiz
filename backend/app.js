@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { MongoClient } = require("mongodb");
-const config = require("./config/config.json");
+const config = require("./config.json");
 
 const app = express();
 const PORT = process.env.PORT || 2000;
