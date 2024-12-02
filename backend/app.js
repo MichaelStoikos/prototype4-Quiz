@@ -10,7 +10,13 @@ const dbName = "Quiz";
 const roomsCollection = "Rooms";
 const participantsCollection = "Participants";
 
-app.use(cors());
+const corsOptions = {
+  origin: "https://michaelstoikos.github.io", // Replace with your GitHub Pages URL
+  methods: ["GET", "POST"], // Define allowed HTTP methods
+  allowedHeaders: ["Content-Type"], // Define allowed headers
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 let db;
