@@ -29,6 +29,9 @@ client
     app.get("/api/question", async (req, res) => {
         try {
           const question = await db.collection("Questions").aggregate([{ $sample: { size: 1 } }]).toArray();
+          if (question.length === 0) {
+            return res.status(404).json({ error: "No questions available" });
+          }
           res.json({
             id: question[0].id,
             question: question[0].question,
@@ -40,6 +43,7 @@ client
           res.status(500).json({ error: "Internal Server Error" });
         }
       });
+      
 
       app.post("/api/answer", async (req, res) => {
         const { sessionId, elo, questionId, selectedOption } = req.body;
