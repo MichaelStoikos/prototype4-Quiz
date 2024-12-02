@@ -83,11 +83,11 @@ https://michaelstoikos.github.io/prototype4-Quiz/
 
 ## References
 
-**Canvas:** Frontend course for React basiscode.
-**W3Schools:** HTML/CSS basis.
-**Fetch Data:** https://dev.to/shieldstring/data-fetching-in-react-3oag - Fetch Data from my mongodb Collection.
-**CORS:** https://www.npmjs.com/package/cors - I had a problem where my frontend couldn't fetch my data cause of CORS problems this helped me fix it.
-**LocalStorage:** MDN Local Storage: https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage - The ELO stored in the LocalStorage.
+- **Canvas:** Frontend course for React basiscode.
+- **W3Schools:** HTML/CSS basis.
+- **Fetch Data:** https://dev.to/shieldstring/data-fetching-in-react-3oag - Fetch Data from my mongodb Collection.
+- **CORS:** https://www.npmjs.com/package/cors - I had a problem where my frontend couldn't fetch my data cause of CORS problems this helped me fix it.
+- **LocalStorage:** MDN Local Storage: https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage - The ELO stored in the LocalStorage.
 
 ## License
 
